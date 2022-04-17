@@ -293,10 +293,11 @@ class MorseViewModel {
       if (this.ifStickySets() && this.stickySets().trim()) {
         stickys = '|' + this.stickySets().toUpperCase().trim().replace(/ {2}/g, ' ').replace(/ /g, '|')
       }
-
-      const regStr = `<.*?>${stickys}|[^<.*?>]`
+      // seems like \W  needed to capture ? and other non-alpha-numerics
+      const regStr = `<.*?>${stickys}|[^<.*?>]|\\W`
       // console.log(regStr)
       const re = new RegExp(regStr, 'g')
+      // console.log(s)
       const match = s.toUpperCase().match(re)
       // console.log(match)
       return match
