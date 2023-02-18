@@ -88,6 +88,8 @@ export class MorseViewModel {
   currentSerializedSettings:any = null
   allShortcutKeys:ko.ObservableArray
 
+  inputToGrade:ko.Observable<string> = ko.observable(undefined)
+
   // END KO observables declarations
   constructor () {
     // initialize the images/icons
@@ -571,6 +573,13 @@ export class MorseViewModel {
     this.morseVoice.voiceBuffer = []
 
     return phraseToSpeak
+  }
+
+  doCheckResults = (text) => {
+    console.log('in check results expected / your input \n' +
+      this.words().map(w => w.displayWord.toLowerCase()).join(',') + '\n' +
+      this.inputToGrade().toLowerCase() + '\n' +
+      this.inputToGrade().split(' ').join(','))
   }
 
   doPause = (fullRewind, fromPauseButton, fromStopButton) => {

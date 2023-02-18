@@ -891,6 +891,16 @@
 
         </section>
 
+        <section aria-label="Grade" class="col" >
+            <textarea rows="10" style="width:100%" aria-label="Text" data-bind="textInput: inputToGrade"></textarea>
+
+            <div class="button-group me-2">
+                <button id="checkResult" type="button" class="btn btn-secondary"
+                        data-bind="click: () => doCheckResults()">Check Results
+                </button>
+            </div>
+        </section>
+
         <details id="keyboard-shortcuts">
             <summary>Keyboard Shortcuts</summary>
             <p>
