@@ -89,6 +89,7 @@ export class MorseViewModel {
   allShortcutKeys:ko.ObservableArray
 
   inputToGrade:ko.Observable<string> = ko.observable(undefined)
+  gradeResults:ko.ObservableArray = ko.observableArray([])
 
   // END KO observables declarations
   constructor () {
@@ -576,10 +577,12 @@ export class MorseViewModel {
   }
 
   doCheckResults = (text) => {
-    console.log('in check results expected / your input \n' +
-      this.words().map(w => w.displayWord.toLowerCase()).join(',') + '\n' +
-      this.inputToGrade().toLowerCase() + '\n' +
-      this.inputToGrade().split(' ').join(','))
+    const sent = this.words().map(w => w.displayWord.toUpperCase());
+    const received = this.inputToGrade().toUpperCase().split(' ');
+    const zip = (x, y) => Array(Math.max(x.length, y.length)).fill(0).map((_, i) => [x[i], y[i]]);
+
+    zip(sent,received).forEach((x) => {const sent = x[0]; const received = x[1]; this.gradeResults.push({ sent, received }) })
+    console.log(zip(sent, received));
   }
 
   doPause = (fullRewind, fromPauseButton, fromStopButton) => {

@@ -901,6 +901,21 @@
             </div>
         </section>
 
+        <section aria-label="Results" class="col" >
+            <table style="width:50%">
+                <thead>
+                <tr><th>Sent</th><th>Received</th><th>Errors</th></tr>
+                </thead>
+                <tbody data-bind="foreach: gradeResults">
+                <tr>
+                    <td><span data-bind="text: $data.sent"/></td>
+                    <td><span data-bind="text: $data.received"/></td>
+                    <td><span data-bind="text: $data.received"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
         <details id="keyboard-shortcuts">
             <summary>Keyboard Shortcuts</summary>
             <p>

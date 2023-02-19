@@ -21,6 +21,10 @@ noiseaccordion {
     width: 1px;
 }
 
+/*.different {*/
+/*    color: red;*/
+/*}*/
+
 section:last-of-type {
     padding-bottom: 2rem;
 }
