@@ -891,6 +891,32 @@
 
         </section>
 
+        <section aria-label="Grade" class="col" >
+            <textarea rows="10" style="width:100%" aria-label="Text" data-bind="textInput: inputToGrade"></textarea>
+
+            <div class="button-group me-2">
+                <button id="checkResult" type="button" class="btn btn-secondary"
+                        data-bind="click: () => doCheckResults()">Check Results
+                </button>
+            </div>
+        </section>
+
+        <section aria-label="Results" class="col" >
+            <table style="width:50%">
+                <thead>
+                <tr><th>Sent</th><th>Received</th><th>Errors</th><th><span data-bind="text: totalErrors"/></th></tr>
+                </thead>
+                <tbody data-bind="foreach: gradeResults">
+                <tr>
+                    <td><span data-bind="text: $data.sent"/></td>
+                    <td><span data-bind="text: $data.received"/></td>
+                    <td><span data-bind="html: $data.sentWithErrors"/></td>
+                    <td><span data-bind="text: $data.numErrors"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
         <details id="keyboard-shortcuts">
             <summary>Keyboard Shortcuts</summary>
             <p>

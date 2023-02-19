@@ -88,6 +88,10 @@ export class MorseViewModel {
   currentSerializedSettings:any = null
   allShortcutKeys:ko.ObservableArray
 
+  inputToGrade:ko.Observable<string> = ko.observable(undefined)
+  gradeResults:ko.ObservableArray = ko.observableArray([])
+  totalErrors:ko.Observable<number> = ko.observable(0)
+
   // END KO observables declarations
   constructor () {
     // initialize the images/icons
@@ -571,6 +575,37 @@ export class MorseViewModel {
     this.morseVoice.voiceBuffer = []
 
     return phraseToSpeak
+  }
+
+  doCheckResults = (text) => {
+    const sent = this.words().map(w => w.displayWord.toUpperCase());
+    const received = this.inputToGrade().toUpperCase().split(' ');
+    const zip = (x, y) => Array(Math.max(x.length, y.length)).fill(0).map((_, i) => [x[i], y[i]]);
+
+    this.gradeResults.removeAll()
+    var totalErrors = 0
+    zip(sent, received).forEach((x) => {
+      const sent = x[0];
+      const received = x[1];
+      var sentWithIncorrectLetters: string[] = []
+      var numErrors = 0
+      // loop through each character in the expected word and compare it to the corresponding character in the actual word
+      for (var i = 0; i < Math.max(sent.length, received.length); i++) {
+        var expectedChar = sent.charAt(i);
+        var actualChar = received.charAt(i)
+
+        if (expectedChar === actualChar) {
+          sentWithIncorrectLetters.push(actualChar);
+        } else {
+          numErrors++
+          sentWithIncorrectLetters.push('<span style="color:red;">' + actualChar + '</span>');
+        }
+      }
+      totalErrors += numErrors
+      var sentWithErrors = sentWithIncorrectLetters.join('')
+      this.gradeResults.push({ sent, received, sentWithErrors, numErrors })
+    })
+    this.totalErrors(totalErrors)
   }
 
   doPause = (fullRewind, fromPauseButton, fromStopButton) => {
