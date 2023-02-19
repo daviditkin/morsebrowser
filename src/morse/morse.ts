@@ -90,6 +90,7 @@ export class MorseViewModel {
 
   inputToGrade:ko.Observable<string> = ko.observable(undefined)
   gradeResults:ko.ObservableArray = ko.observableArray([])
+  totalErrors:ko.Observable<number> = ko.observable(0)
 
   // END KO observables declarations
   constructor () {
@@ -582,7 +583,8 @@ export class MorseViewModel {
     const zip = (x, y) => Array(Math.max(x.length, y.length)).fill(0).map((_, i) => [x[i], y[i]]);
 
     this.gradeResults.removeAll()
-    zip(sent,received).forEach((x) => {
+    var totalErrors = 0
+    zip(sent, received).forEach((x) => {
       const sent = x[0];
       const received = x[1];
       var sentWithIncorrectLetters: string[] = []
@@ -590,19 +592,20 @@ export class MorseViewModel {
       // loop through each character in the expected word and compare it to the corresponding character in the actual word
       for (var i = 0; i < Math.max(sent.length, received.length); i++) {
         var expectedChar = sent.charAt(i);
-        var actualChar = received.charAt(i);
+        var actualChar = received.charAt(i)
 
         if (expectedChar === actualChar) {
           sentWithIncorrectLetters.push(actualChar);
         } else {
-          numErrors++;
+          numErrors++
           sentWithIncorrectLetters.push('<span style="color:red;">' + actualChar + '</span>');
         }
       }
+      totalErrors += numErrors
       var sentWithErrors = sentWithIncorrectLetters.join('')
       this.gradeResults.push({ sent, received, sentWithErrors, numErrors })
     })
-    console.log(zip(sent, received));
+    this.totalErrors(totalErrors)
   }
 
   doPause = (fullRewind, fromPauseButton, fromStopButton) => {
