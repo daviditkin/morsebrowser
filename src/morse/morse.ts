@@ -581,7 +581,27 @@ export class MorseViewModel {
     const received = this.inputToGrade().toUpperCase().split(' ');
     const zip = (x, y) => Array(Math.max(x.length, y.length)).fill(0).map((_, i) => [x[i], y[i]]);
 
-    zip(sent,received).forEach((x) => {const sent = x[0]; const received = x[1]; this.gradeResults.push({ sent, received }) })
+    this.gradeResults.removeAll()
+    zip(sent,received).forEach((x) => {
+      const sent = x[0];
+      const received = x[1];
+      var sentWithIncorrectLetters: string[] = []
+      var numErrors = 0
+      // loop through each character in the expected word and compare it to the corresponding character in the actual word
+      for (var i = 0; i < Math.max(sent.length, received.length); i++) {
+        var expectedChar = sent.charAt(i);
+        var actualChar = received.charAt(i);
+
+        if (expectedChar === actualChar) {
+          sentWithIncorrectLetters.push(actualChar);
+        } else {
+          numErrors++;
+          sentWithIncorrectLetters.push('<span style="color:red;">' + actualChar + '</span>');
+        }
+      }
+      var sentWithErrors = sentWithIncorrectLetters.join('')
+      this.gradeResults.push({ sent, received, sentWithErrors, numErrors })
+    })
     console.log(zip(sent, received));
   }
 

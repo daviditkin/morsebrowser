@@ -910,7 +910,8 @@
                 <tr>
                     <td><span data-bind="text: $data.sent"/></td>
                     <td><span data-bind="text: $data.received"/></td>
-                    <td><span data-bind="text: $data.received"/></td>
+                    <td><span data-bind="html: $data.sentWithErrors"/></td>
+                    <td><span data-bind="text: $data.numErrors"/></td>
                 </tr>
                 </tbody>
             </table>
